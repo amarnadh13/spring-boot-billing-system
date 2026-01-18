@@ -41,6 +41,7 @@ export const AppContextProvider = (props) => {
         loadData();
     }, []);
 
+
     const setAuthData = (token, role) => {
         setAuth({token, role});
     }

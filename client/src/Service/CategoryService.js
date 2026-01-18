@@ -1,11 +1,11 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance.js";
 
 export const addCategory = async (category) => {
-    return await axios.post('http://localhost:8080/api/v1.0/admin/categories', category, {headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}});
+    return await axiosInstance.post('/api/v1.0/admin/categories', category);
 }
 export const deleteCategory = async (categoryId) => {
-    return await axios.delete(`http://localhost:8080/api/v1.0/admin/categories/${categoryId}`, {headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}});
+    return await axiosInstance.delete(`/api/v1.0/admin/categories/${categoryId}`);
 }
 export const fetchCategories = async () => {
-    return await axios.get('http://localhost:8080/api/v1.0/categories', {headers: {'Authorization': `Bearer ${localStorage.getItem("token")}`}});
+    return await axiosInstance.get('/api/v1.0');
 }
