@@ -22,6 +22,7 @@ const Login = () => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+
         setLoading(true);
         try {
             const response = await login(data);
@@ -30,7 +31,6 @@ const Login = () => {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("role", response.data.role);
                 setAuthData(response.data.token, response.data.role);
-
                 navigate("/dashboard");
             }
         } catch (error) {

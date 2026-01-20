@@ -8,22 +8,27 @@ import {AppConstants} from "../../Util/Constants.js";
 import {createRazorpayOrder, verifyPayment} from "../../Service/PaymentService.js";
 
 const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerName}) => {
-    const {cartItems, clearCart} = useContext(AppContext);
+    const {cartItems, clearCart, openReceipt} = useContext(AppContext);
     const [isProcessing, setIsProcessing] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-    const [showPopup, setShowPopup] = useState(false);
     const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     const tax = totalAmount * 0.01;
     const grandTotal = totalAmount + tax;
+
     const clearAll = () => {
         setCustomerName("");
         setMobileNumber("");
         clearCart();
     }
     const placeOrder = () => {
-        setShowPopup(true);
+        openReceipt({
+            ...orderDetails,
+            razorpayOrderId: orderDetails?.paymentDetails?.razorpayOrderId,
+            razorpayPaymentId: orderDetails?.paymentDetails?.razorpayPaymentId,
+        });
         clearAll();
-    }
+    };
+
     const handlePrintReceipt = () => {
         window.print();
     }
@@ -61,7 +66,7 @@ const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
             customerName,
             phoneNumber: mobileNumber,
             cartItems,
-            subtotal: totalAmount,
+            subTotal: totalAmount,
             tax,
             grandTotal,
             paymentMethod: paymentMode.toUpperCase()
@@ -78,7 +83,7 @@ const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
                 const razorpayLoaded = await loadRazorpayScript();
                 if (!razorpayLoaded) {
                     toast.error("Unable to load razorpay");
-                    deleteOrderOnFailure(savedData.orderId);
+                    await deleteOrderOnFailure(savedData.orderId);
                     return;
                 }
 
@@ -179,7 +184,7 @@ const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
                         onClick={() => completePayment("upi")}
                             disabled={isProcessing}
                     >
-                        {isProcessing ? "isProcessing" : "upi"}
+                        {isProcessing ? "isProcessing" : "UPI"}
                     </button>
                 </div>
                 <div className="d-flex gap-3 mt-3">
@@ -190,19 +195,6 @@ const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
                         Place order
                     </button>
                 </div>
-                {
-                    showPopup && (
-                        <ReceiptPopup
-                            orderDetails={{
-                                ...orderDetails,
-                                razorpayOrderId: orderDetails.paymentDetails?.razorpayOrderId,
-                                razorpayPaymentId: orderDetails.paymentDetails?.razorpayPaymentId,
-                            }}
-                            onClose={() => setShowPopup(false)}
-                            onPrint={handlePrintReceipt}
-                        />
-                    )
-                }
             </div>
         </div>
     )

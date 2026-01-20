@@ -1,11 +1,11 @@
-import axiosInstance from "./axiosInstance.js";
+import API_URL from "./axiosInstance.js";
 
 export const addCategory = async (category) => {
-    return await axiosInstance.post('/api/v1.0/admin/categories', category);
+    return await API_URL.post("/admin/categories", category);
 }
 export const deleteCategory = async (categoryId) => {
-    return await axiosInstance.delete(`/api/v1.0/admin/categories/${categoryId}`);
+    return await API_URL.delete(`/admin/categories/${categoryId}`);
 }
 export const fetchCategories = async () => {
-    return await axiosInstance.get('/api/v1.0');
+    return await API_URL.get("/categories");
 }

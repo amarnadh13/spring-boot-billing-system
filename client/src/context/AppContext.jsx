@@ -9,7 +9,7 @@ export const AppContextProvider = (props) => {
 
     const[categories, setCategories] = useState([]);
     const [itemsData, setItemsData] = useState([]);
-    const [auth, setAuth] = useState({token: null, role: null});
+
     const [cartItems, setCartItems] = useState([]);
 
     const addToCart = (item) => {
@@ -20,24 +20,59 @@ export const AppContextProvider = (props) => {
             setCartItems( [...cartItems, {...item, quantity: 1}]);
         }
     }
+
     const removeFromCart = (itemId) => {
         setCartItems(cartItems.filter(item => item.itemId !== itemId));
     }
+
     const updateCart = (itemId, newQuantity) => {
         setCartItems(cartItems.map(item => item.itemId === itemId ? { ...item, quantity: newQuantity} : item));
     }
+
+    const clearCart = () => {
+        setCartItems([]);
+    }
+
+
+    const [showReceipt, setShowReceipt] = useState(false);
+    const [receiptData, setReceiptData] = useState(null);
+
+    const openReceipt = (data) => {
+        setReceiptData(data);
+        setShowReceipt(true);
+    };
+
+    const closeReceipt = () => {
+        setShowReceipt(false);
+        setReceiptData(null);
+    };
+
+
+    const [auth, setAuth] = useState({token: null, role: null});
+    const [authLoading, setAuthLoading] = useState(true);
+
     useEffect(() => {
-        async function loadData(){
-            const savedToken = localStorage.getItem("token");
-            const savedRole = localStorage.getItem("role");
-            if (savedToken && savedRole) {
-                setAuth({ token: savedToken, role: savedRole });
+        const loadData = async () => {
+            const token = localStorage.getItem("token");
+            const role = localStorage.getItem("role");
+
+            if (token && role) {
+                setAuth({ token, role });
             }
-            const response = await fetchCategories();
-            const itemResponse = await fetchItems();
-            setCategories(response.data);
-            setItemsData(itemResponse.data);
-        }
+
+            try {
+                const response = await fetchCategories();
+                const itemResponse = await fetchItems();
+
+                setCategories(response.data);
+                setItemsData(itemResponse.data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setAuthLoading(false);
+            }
+        };
+
         loadData();
     }, []);
 
@@ -46,23 +81,24 @@ export const AppContextProvider = (props) => {
         setAuth({token, role});
     }
 
-    const clearCart = () => {
-        setCartItems([]);
-    }
-
 
     const contextValue = {
         categories,
         setCategories,
         auth,
         setAuthData,
+        authLoading,
         itemsData,
         setItemsData,
         addToCart,
         cartItems,
         removeFromCart,
         updateCart,
-        clearCart
+        clearCart,
+        showReceipt,
+        receiptData,
+        openReceipt,
+        closeReceipt
     }
 
     return <AppContext.Provider value={contextValue}>

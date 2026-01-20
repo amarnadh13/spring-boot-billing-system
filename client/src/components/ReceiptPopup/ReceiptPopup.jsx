@@ -2,6 +2,7 @@ import './ReceiptPopup.css'
 import './Print.css'
 
 const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
+
     return (
         <div className="receipt-popup-overlay text-dark">
             <div className="receipt-popup">
@@ -10,7 +11,7 @@ const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
                 </div>
                 <h3 className="text-center mb-4">Order Receipt</h3>
                 <p>
-                    <strong>Order Id:</strong> {orderDetails.id}
+                    <strong>Order Id:</strong> {orderDetails.orderId}
                 </p>
                 <p>
                     <strong>Name: </strong> {orderDetails.customerName}
@@ -33,23 +34,26 @@ const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
                     <span>
                         <strong>Subtotal:</strong>
                     </span>
-                    <span>₹{(orderDetails.subtotal || 0).toFixed(2)}</span>
+                    <span>₹{(orderDetails.subTotal || 0).toFixed(2)}</span>
                 </div>
-                <div className="justify-content-between mb-2">
+                <div className="d-flex justify-content-between mb-2">
                     <span>
                         <strong>Tax(1%):</strong>
                     </span>
                     <span>₹{(orderDetails.tax || 0).toFixed(2)}</span>
                 </div>
-                <div className="justify-content-between mb-2">
+                <div className="d-flex justify-content-between mb-2">
                     <span>
                         <strong>Grand Total:</strong>
                     </span>
                     <span>₹{(orderDetails.grandTotal || 0).toFixed(2)}</span>
                 </div>
-                <p>
-                    <strong>Payment Method: </strong> {orderDetails.paymentMethod}
-                </p>
+                <div className="d-flex justify-content-between mb-2">
+                    <span>
+                        <strong>Payment Method:</strong>
+                    </span>
+                    <span>{orderDetails.paymentMethod}</span>
+                </div>
                 {
                     orderDetails.paymentMethod === "UPI" && (
                         <>
@@ -64,7 +68,7 @@ const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
                 }
                 <div className="d-flex justify-content-end gap-3 mt-4">
                     <button className="btn btn-warning" onClick={onPrint}>Print Receipt</button>
-                    <button className="btn btn-secondary" onClick={onClose}>Close</button>
+                    <button className="btn btn-danger" onClick={onClose}>Close</button>
                 </div>
             </div>
         </div>

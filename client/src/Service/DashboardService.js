@@ -1,5 +1,5 @@
-import axiosInstance from "./axiosInstance.js";
+import API_URL from "./axiosInstance.js";
 
 export const fetchDashboardData = async () => {
-    return await axiosInstance.get('/api/v1.0/dashboard');
+    return await API_URL.get('/dashboard');
 }
