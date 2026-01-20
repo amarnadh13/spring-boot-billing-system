@@ -6,14 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SpaForwardController {
 
-    @RequestMapping(value = {
-            "/", 
+    @RequestMapping({
+            "/",
             "/login",
             "/dashboard",
-            "/**/{path:[^\\.]*}"
+            "/admin/**",
+            "/user/**"
     })
     public String forward() {
         return "forward:/index.html";
     }
 }
+
 
