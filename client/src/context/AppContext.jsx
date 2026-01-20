@@ -52,29 +52,37 @@ export const AppContextProvider = (props) => {
     const [authLoading, setAuthLoading] = useState(true);
 
     useEffect(() => {
-        const loadData = async () => {
-            const token = localStorage.getItem("token");
-            const role = localStorage.getItem("role");
+    const loadData = async () => {
+        const token = localStorage.getItem("token");
+        const role = localStorage.getItem("role");
 
-            if (token && role) {
-                setAuth({ token, role });
-            }
+        if (token && role) {
+            setAuth({ token, role });
+        }
 
-            try {
-                const response = await fetchCategories();
-                const itemResponse = await fetchItems();
+        setAuthLoading(false);
+    };
 
-                setCategories(response.data);
-                setItemsData(itemResponse.data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setAuthLoading(false);
-            }
-        };
+    loadData();
+}, []);
 
-        loadData();
-    }, []);
+    useEffect(() => {
+    if (authLoading || !auth.token) return;
+
+    const loadData = async () => {
+        try {
+            const response = await fetchCategories(auth.token);
+            const itemResponse = await fetchItems(auth.token);
+
+            setCategories(response.data);
+            setItemsData(itemResponse.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    loadData();
+}, [authLoading, auth.token]);
 
 
     const setAuthData = (token, role) => {
