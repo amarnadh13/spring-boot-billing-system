@@ -18,6 +18,7 @@ const App = () => {
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
 
     const LoginRoute = ({children}) => {
+        if (authLoading) return null;
         return auth.token ? <Navigate to="/dashboard" replace /> : children;
     };
 
