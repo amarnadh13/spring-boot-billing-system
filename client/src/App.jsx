@@ -59,6 +59,8 @@ const App = () => {
                 {/* AUTH */}
                 <Route path="/login" element={ <LoginRoute> <Login /> </LoginRoute> } />
 
+                <Route path="/index.html" element={<Navigate to="/" replace />} />
+
                 {/* PROTECTED */}
                 <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
                 <Route path="/explore" element={ <ProtectedRoute> <Explore /> </ProtectedRoute> } />
