@@ -16,21 +16,30 @@ import ReceiptPopup from "./components/ReceiptPopup/ReceiptPopup.jsx";
 const App = () => {
     const location = useLocation();
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
-    
+
     const LoginRoute = ({children}) => {
+        if (authLoading) return null;
         return auth.token ? <Navigate to="/dashboard" replace /> : children;
     };
 
-    const ProtectedRoute = (children) => {
-        if (authLoading) return <div>Loading...</div>;
-        if (!auth.token) return <Navigate to="/login" replace />;
+    const ProtectedRoute = ({children}) => {
+        if (authLoading) return null;
+        if (!auth.token) {
+            return <Navigate to="/login" replace />;
+        }
         return children;
     };
 
-    const AdminRoute = (children) => {
-        if (authLoading) return <div>Loading...</div>;
-        if (!auth.token) return <Navigate to="/login" replace />;
-        if (auth.role !== "ROLE_ADMIN") return <Navigate to="/dashboard" replace />;
+    const AdminRoute = ({children}) => {
+        if (authLoading) return null;
+        if (!auth.token) {
+            return <Navigate to="/login" replace />;
+        }
+
+        if (auth.role !== "ROLE_ADMIN") {
+            return <Navigate to="/dashboard" replace />;
+        }
+
         return children;
     };
 
@@ -51,7 +60,6 @@ const App = () => {
                 <Route path="/login" element={ <LoginRoute> <Login /> </LoginRoute> } />
 
                 {/* PROTECTED */}
-                {/* Protected Routes */}
                 <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
                 <Route path="/explore" element={ <ProtectedRoute> <Explore /> </ProtectedRoute> } />
                 <Route path="/orders" element={ <ProtectedRoute> <OrderHistory /> </ProtectedRoute> } />
