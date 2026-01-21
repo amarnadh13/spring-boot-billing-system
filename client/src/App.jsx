@@ -23,23 +23,15 @@ const App = () => {
     };
 
     const ProtectedRoute = ({children}) => {
-        if (authLoading) return null;
-        if (!auth.token) {
-            return <Navigate to="/login" replace />;
-        }
+        if (authLoading) return <div>Loading...</div>;
+        if (!auth.token) return <Navigate to="/login" replace />;
         return children;
     };
 
     const AdminRoute = ({children}) => {
-        if (authLoading) return null;
-        if (!auth.token) {
-            return <Navigate to="/login" replace />;
-        }
-
-        if (auth.role !== "ROLE_ADMIN") {
-            return <Navigate to="/dashboard" replace />;
-        }
-
+        if (authLoading) return <div>Loading...</div>;
+        if (!auth.token) return <Navigate to="/login" replace />;
+        if (auth.role !== "ROLE_ADMIN") return <Navigate to="/dashboard" replace />;
         return children;
     };
 
