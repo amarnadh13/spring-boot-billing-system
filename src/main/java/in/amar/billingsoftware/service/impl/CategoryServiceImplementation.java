@@ -80,7 +80,6 @@ public class CategoryServiceImplementation implements CategoryService {
                 .categoryId(newCategory.getCategoryId())
                 .name(newCategory.getName())
                 .description(newCategory.getDescription())
-                .bgColor(newCategory.getBgColor())
                 .imgUrl(newCategory.getImgUrl())
                 .createdAt(newCategory.getCreatedAt())
                 .updatedAt(newCategory.getUpdatedAt())
@@ -93,7 +92,6 @@ public class CategoryServiceImplementation implements CategoryService {
                 .categoryId(UUID.randomUUID().toString())
                 .name(request.getName())
                 .description(request.getDescription())
-                .bgColor(request.getBgColor())
                 .build();
     }
 }
