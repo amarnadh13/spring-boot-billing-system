@@ -52,7 +52,7 @@ export const AppContextProvider = (props) => {
     const [authLoading, setAuthLoading] = useState(true);
 
     useEffect(() => {
-    const loadData = async () => {
+    const loadAuth = async () => {
         const token = localStorage.getItem("token");
         const role = localStorage.getItem("role");
 
@@ -63,7 +63,7 @@ export const AppContextProvider = (props) => {
         setAuthLoading(false);
     };
 
-    loadData();
+    loadAuth();
 }, []);
 
     useEffect(() => {
@@ -71,8 +71,8 @@ export const AppContextProvider = (props) => {
 
     const loadData = async () => {
         try {
-            const response = await fetchCategories(auth.token);
-            const itemResponse = await fetchItems(auth.token);
+            const response = await fetchCategories();
+            const itemResponse = await fetchItems();
 
             setCategories(response.data);
             setItemsData(itemResponse.data);
