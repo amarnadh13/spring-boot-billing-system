@@ -32,8 +32,6 @@ const App = () => {
     };
 
     const AdminRoute = ({children}) => {
-        if (authLoading) return null;
-
         if (!auth.token) {
             return <Navigate to="/login" replace />;
         }
