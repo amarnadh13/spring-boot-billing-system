@@ -21,17 +21,17 @@ const App = () => {
         return auth.token ? <Navigate to="/dashboard" replace /> : children;
     };
 
-    const ProtectedRoute = (childrens) => {
+    const ProtectedRoute = (children) => {
         if (authLoading) return <div>Loading...</div>;
         if (!auth.token) return <Navigate to="/login" replace />;
-        return childrens;
+        return children;
     };
 
-    const AdminRoute = (childrens) => {
+    const AdminRoute = (children) => {
         if (authLoading) return <div>Loading...</div>;
         if (!auth.token) return <Navigate to="/login" replace />;
         if (auth.role !== "ROLE_ADMIN") return <Navigate to="/dashboard" replace />;
-        return childrens;
+        return children;
     };
 
     return (
