@@ -17,7 +17,7 @@ const App = () => {
     const location = useLocation();
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
     if (authLoading) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     const LoginRoute = ({children}) => {
