@@ -77,7 +77,13 @@ export const AppContextProvider = (props) => {
             setCategories(response.data);
             setItemsData(itemResponse.data);
         } catch (error) {
-            console.error(error);
+            if (error.response?.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                setAuth({token: null, role: null});
+            } else {
+                console.error(error);
+            }
         }
     };
 
@@ -86,6 +92,8 @@ export const AppContextProvider = (props) => {
 
 
     const setAuthData = (token, role) => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
         setAuth({token, role});
     }
 
