@@ -3,7 +3,7 @@ import ManageCategory from "./pages/ManageCategory/ManageCategory.jsx";
 import ManageUsers from "./pages/ManageUsers/ManageUsers.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Explore from "./pages/Explore/Explore.jsx";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
 import ManageItems from "./pages/ManageItems/ManageItems.jsx";
 import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login/Login.jsx";
@@ -17,35 +17,29 @@ const App = () => {
     const location = useLocation();
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
 
-    const LoginRoute = ({children}) => {
-        if (authLoading) return null;
-        return auth.token ? <Navigate to="/dashboard" replace /> : children;
+    const showMenu = auth.token && location.pathname !== "/login";
+
+    const LoginRoute = () => {
+        if (authLoading) return <div>Loading...</div>;
+        return auth.token ? <Navigate to="/dashboard" replace /> : <Outlet />;
     };
 
-    const ProtectedRoute = ({children}) => {
-        if (authLoading) return null;
-        if (!auth.token) {
-            return <Navigate to="/login" replace />;
-        }
-        return children;
+    const ProtectedRoute = () => {
+        if (authLoading) return <div>Loading...</div>;
+        if (!auth.token) return <Navigate to="/login" replace />;
+        return <Outlet />;
     };
 
-    const AdminRoute = ({children}) => {
-        if (authLoading) return null;
-        if (!auth.token) {
-            return <Navigate to="/login" replace />;
-        }
-
-        if (auth.role !== "ROLE_ADMIN") {
-            return <Navigate to="/dashboard" replace />;
-        }
-
-        return children;
+    const AdminRoute = () => {
+        if (authLoading) return <div>Loading...</div>;
+        if (!auth.token) return <Navigate to="/login" replace />;
+        if (auth.role !== "ROLE_ADMIN") return <Navigate to="/dashboard" replace />;
+        return <Outlet />;
     };
 
     return (
         <div>
-            {auth.token && location.pathname !== "/login" && <Menubar />}
+            {/* Menubar */}
             <Toaster />
             {showReceipt && (
                 <ReceiptPopup
@@ -60,14 +54,19 @@ const App = () => {
                 <Route path="/login" element={ <LoginRoute> <Login /> </LoginRoute> } />
 
                 {/* PROTECTED */}
-                <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
-                <Route path="/explore" element={ <ProtectedRoute> <Explore /> </ProtectedRoute> } />
-                <Route path="/orders" element={ <ProtectedRoute> <OrderHistory /> </ProtectedRoute> } />
+                {/* Protected Routes */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/explore" element={<Explore />} />
+                    <Route path="/orders" element={<OrderHistory />} />
+                </Route>
 
                 {/* ADMIN ONLY */}
-                <Route path="/category" element={ <AdminRoute> <ManageCategory /> </AdminRoute> } />
-                <Route path="/users" element={ <AdminRoute> <ManageUsers /> </AdminRoute> } />
-                <Route path="/items" element={ <AdminRoute> <ManageItems /> </AdminRoute> } />
+                <Route element={<AdminRoute />}>
+                    <Route path="/category" element={<ManageCategory />} />
+                    <Route path="/users" element={<ManageUsers />} />
+                    <Route path="/items" element={<ManageItems />} />
+                </Route>
 
                 {/* ROOT */}
                 <Route path="/" element={ auth.token ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace /> } />
