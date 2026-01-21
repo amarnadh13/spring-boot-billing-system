@@ -16,15 +16,13 @@ import ReceiptPopup from "./components/ReceiptPopup/ReceiptPopup.jsx";
 const App = () => {
     const location = useLocation();
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
-    if (authLoading) {
-        return null;
-    }
 
     const LoginRoute = ({children}) => {
         return auth.token ? <Navigate to="/dashboard" replace /> : children;
     };
 
     const ProtectedRoute = ({children}) => {
+        if (authLoading) return null;
         if (!auth.token) {
             return <Navigate to="/login" replace />;
         }
@@ -32,6 +30,7 @@ const App = () => {
     };
 
     const AdminRoute = ({children}) => {
+        if (authLoading) return null;
         if (!auth.token) {
             return <Navigate to="/login" replace />;
         }
