@@ -16,9 +16,7 @@ import ReceiptPopup from "./components/ReceiptPopup/ReceiptPopup.jsx";
 const App = () => {
     const location = useLocation();
     const {auth, authLoading, showReceipt, receiptData, closeReceipt} = useContext(AppContext);
-
-    const showMenu = auth.token && location.pathname !== "/login";
-
+    
     const LoginRoute = ({children}) => {
         return auth.token ? <Navigate to="/dashboard" replace /> : children;
     };
@@ -38,7 +36,7 @@ const App = () => {
 
     return (
         <div>
-            {/* Menubar */}
+            {auth.token && location.pathname !== "/login" && <Menubar />}
             <Toaster />
             {showReceipt && (
                 <ReceiptPopup
