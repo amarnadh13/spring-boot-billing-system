@@ -4,7 +4,7 @@ import {latestOrders} from "../../Service/OrderService.js";
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchOrders = async () => {
