@@ -55,12 +55,6 @@ const App = () => {
                 />
             )}
 
-            if (authLoading) {
-                return <div>Loading...</div>;
-            }
-
-
-
             <Routes>
                 {/* AUTH */}
                 <Route path="/login" element={ <LoginRoute> <Login /> </LoginRoute> } />
