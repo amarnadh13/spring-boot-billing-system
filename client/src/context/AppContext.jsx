@@ -75,7 +75,7 @@ export const AppContextProvider = (props) => {
             } catch (error) {
                 console.error("Failed to load data", error);
 
-                if (error.response?.status === 401) {
+                if (error.response?.status === 401 || error.response?.status === 403) {
                     logout();
                 }
             }
@@ -85,10 +85,11 @@ export const AppContextProvider = (props) => {
     }, [authLoading, auth.token]);
 
     const setAuthData = (token, role) => {
+        if (!token || !role) return ;
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
         setAuth({token, role});
-    }
+    };
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -104,6 +105,7 @@ export const AppContextProvider = (props) => {
         setCategories,
         auth,
         setAuthData,
+        logout,
         authLoading,
         itemsData,
         setItemsData,
