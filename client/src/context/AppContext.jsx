@@ -52,18 +52,14 @@ export const AppContextProvider = (props) => {
     const [authLoading, setAuthLoading] = useState(true);
 
     useEffect(() => {
-    const loadAuth = async () => {
-        const token = localStorage.getItem("token");
-        const role = localStorage.getItem("role");
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
-        if (token && role) {
-            setAuth({ token, role });
-        }
+    if (token && role) {
+        setAuth({ token, role });
+    }
 
-        setAuthLoading(false);
-    };
-
-    loadAuth();
+    setAuthLoading(false);
 }, []);
 
     useEffect(() => {
