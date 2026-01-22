@@ -49,8 +49,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/login", "/encode", "/uploads/**").permitAll()
-                        .requestMatchers(   "/api/v1.0/categories", "/api/v1.0/items", "/api/v1.0/orders", "/api/v1.0/payments/**", "/api/v1.0/dashboard").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1.0/admin/**").hasRole("ADMIN")
+                        .requestMatchers(   "/categories", "/items", "orders/**", "payments/**", "/api/v1.0/dashboard").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
