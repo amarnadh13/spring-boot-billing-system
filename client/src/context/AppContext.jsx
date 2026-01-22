@@ -67,38 +67,26 @@ export const AppContextProvider = (props) => {
 }, []);
 
     useEffect(() => {
-    if (!auth.token || !auth.role) return;
+        if (authLoading || !auth.token) return;
 
-    const loadData = async () => {
-        try {
-            if (auth.role === "ROLE_ADMIN") {
-                const categories = await fetchCategories();
-                const items = await fetchItems();
-                const users = await fetchUsers();
-                const orders = await fetchOrders();
+        const loadData = async () => {
+            try {
+                const response = await fetchCategories();
+                const itemResponse = await fetchItems();
 
-                setCategories(categories.data);
-                setItemsData(items.data);
-                setUsers(users.data);
-                setOrders(orders.data);
+                setCategories(response.data);
+                setItemsData(itemResponse.data);
+            } catch (error) {
+                console.error("Failed to load data", error);
+
+                if (error.response?.status === 401) {
+                    logout();
+                }
             }
+        };
 
-            if (auth.role === "ROLE_USER") {
-                const items = await fetchItems();
-                const orders = await fetchOrders();
-
-                setItemsData(items.data);
-                setOrders(orders.data);
-            }
-        } catch (err) {
-            console.error("403 or auth error", err);
-        }
-    };
-
-    loadData();
-}, [auth.token, auth.role]);
-
-
+        loadData();
+    }, [authLoading, auth.token]);
 
     const setAuthData = (token, role) => {
         localStorage.setItem("token", token);
