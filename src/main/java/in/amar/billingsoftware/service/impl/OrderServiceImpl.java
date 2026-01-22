@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getLatestOrders() {
-    return orderEntityRepository.findAllByOrderByCreatedAtDesc()
+    return orderEntityRepository.findAllWithItems()
             .stream()
             .map(this::convertToResponse)
             .collect(Collectors.toList());
