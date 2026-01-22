@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         PaymentDetails paymentDetails = existingOrder.getPaymentDetails();
-        paymentDetails.setRazorpayOrderId(request.getRazorpayOrderId());
+        paymentDetails.setRazorpayOrderId(request.getOrderId());
         paymentDetails.setRazorpayPaymentId(request.getRazorpayPaymentId());
         paymentDetails.setRazorpaySignature(request.getRazorpaySignature());
         paymentDetails.setStatus(PaymentDetails.PaymentStatus.COMPLETED);
