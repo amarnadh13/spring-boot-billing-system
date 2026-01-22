@@ -16,7 +16,7 @@ API_URL.interceptors.request.use(config => {
 API_URL.interceptors.response.use(
     response => response,
     error => {
-        if (error.response?.status === 401 || error.response?.status === 403) {
+        if (error.response?.status === 401) {
             localStorage.removeItem("token");
             localStorage.removeItem("role");
         }
