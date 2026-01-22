@@ -19,7 +19,8 @@ const App = () => {
 
     const LoginRoute = ({children}) => {
         if (authLoading) return null;
-        return auth.token ? <Navigate to="/dashboard" replace /> : children;
+        if (!auth.token) return children;
+        return <Navigate to="/dashboard" replace />;
     };
 
     const ProtectedRoute = ({children}) => {
