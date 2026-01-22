@@ -94,6 +94,14 @@ export const AppContextProvider = (props) => {
         setAuth({token, role});
     }
 
+    const logout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        setAuth({ token: null, role: null });
+        setCategories([]);
+        setItemsData([]);
+    };
+
 
     const contextValue = {
         categories,
