@@ -95,14 +95,25 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getLatestOrders() {
-        return orderEntityRepository.findAllByOrderByCreatedAtDesc()
-                .stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
+    return orderEntityRepository.findAllByOrderByCreatedAtDesc()
+            .stream()
+            .map(this::convertToResponse)
+            .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<OrderResponse> findRecentOrders() {
+    return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
+            .stream()
+            .map(this::convertToResponse)
+            .collect(Collectors.toList());
+    }
+
+    
     @Override
     public OrderResponse verifyPayment(PaymentVerificationRequest request) {
         OrderEntity  existingOrder = orderEntityRepository.findByOrderId(request.getOrderId())
