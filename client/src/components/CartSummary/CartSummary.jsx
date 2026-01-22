@@ -132,7 +132,7 @@ const CartSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
     const verifyPaymentHandler = async (response, savedOrder) => {
         const paymentData = {
             razorpayOrderId: response.razorpay_order_id,
-            razorPaymentId: response.razorpay_payment_id,
+            razorpayPaymentId: response.razorpay_payment_id,
             razorpaySignature: response.razorpay_signature,
             orderId: savedOrder.orderId
         };
