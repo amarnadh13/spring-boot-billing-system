@@ -124,12 +124,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Double sumSalesByDate(LocalDate date) {
-        return orderEntityRepository.sumSalesByDate(date);
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(23,59,59);
+        Double total = orderEntityRepository.sumSalesBetween(start, end);
+        return total != null ? total : 0.0;
     }
 
     @Override
     public Long countByOrderDate(LocalDate date) {
-        return orderEntityRepository.countByOrderDate(date);
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(23, 59, 59); 
+        Long count = orderEntityRepository.countOrdersBetween(start, end);
+        return count != null ? count : 0L;
     }
 
     @Override
