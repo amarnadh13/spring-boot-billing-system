@@ -7,12 +7,10 @@ import {assets} from "../../assets/assets.js";
 const Menubar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const {setAuthData, auth} = useContext(AppContext);
-    const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        setAuthData(null, null);
-        navigate("/login");
+    const {logout, auth} = useContext(AppContext);
+    const handleLogout = () => {
+        logout();
+        navigate("/login", {replace: true});
     }
 
     const isActive = (path) => {
@@ -76,7 +74,7 @@ const Menubar = () => {
                                 <hr className="dropdown-divider"/>
                             </li>
                             <li>
-                                <a className="dropdown-item" href="#" onClick={logout}>
+                                <a className="dropdown-item" href="#" onClick={handleLogout}>
                                     Logout
                                 </a>
                             </li>
