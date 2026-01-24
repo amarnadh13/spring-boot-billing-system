@@ -1,3 +1,4 @@
+
 package in.amar.billingsoftware.repository;
 
 import in.amar.billingsoftware.entity.OrderEntity;
@@ -31,10 +32,6 @@ public interface OrderEntityRepository extends JpaRepository<OrderEntity, Long> 
     """)
     Long countOrdersBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Query("""
-    SELECT o FROM OrderEntity o
-    LEFT JOIN FETCH o.items
-    ORDER BY o.createdAt DESC
-    """)
-    List<OrderEntity> findRecentOrders();
+    @Query("SELECT o FROM OrderEntity o ORDER BY o.createdAt DESC")
+    List<OrderEntity> findRecentOrders(PageRequest pageable);
 }
