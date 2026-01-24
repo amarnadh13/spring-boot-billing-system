@@ -105,14 +105,6 @@ public class OrderServiceImpl implements OrderService {
             .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<OrderResponse> findRecentOrders() {
-    return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
-            .stream()
-            .map(orderEntity -> convertToResponse(orderEntity))
-            .collect(Collectors.toList());
-    }
 
     @Transactional
     @Override
@@ -149,6 +141,15 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime end = date.atTime(23, 59, 59); 
         Long count = orderEntityRepository.countOrdersBetween(start, end);
         return count != null ? count : 0L;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<OrderResponse> findRecentOrders() {
+    return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
+            .stream()
+            .map(orderEntity -> convertToResponse(orderEntity))
+            .collect(Collectors.toList());
     }
 
 
