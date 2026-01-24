@@ -36,5 +36,5 @@ public interface OrderEntityRepository extends JpaRepository<OrderEntity, Long> 
     LEFT JOIN FETCH o.items
     ORDER BY o.createdAt DESC
     """)
-    List<OrderEntity> findAllWithItems();
+    List<OrderEntity> findRecentOrders();
 }
