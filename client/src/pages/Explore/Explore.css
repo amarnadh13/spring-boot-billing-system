@@ -49,3 +49,35 @@
     padding: 12px;
     border-radius: 8px;
 }
+
+@media (max-width: 768px) {
+
+    .explore-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 12px;
+    }
+
+    .left-column,
+    .right-column {
+        flex: 1;
+        width: 100%;
+        height: auto;
+        padding: 12px;
+    }
+
+    .first-row,
+    .second-row {
+        flex: none;
+        height: auto;
+        overflow: visible;
+    }
+
+    .customer-form-container,
+    .cart-items-container,
+    .cart-summary-container {
+        height: auto !important;
+        overflow: visible;
+    }
+}
