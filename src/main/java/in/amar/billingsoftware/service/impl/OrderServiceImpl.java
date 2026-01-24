@@ -1,3 +1,4 @@
+
 package in.amar.billingsoftware.service.impl;
 
 import in.amar.billingsoftware.entity.OrderEntity;
@@ -8,7 +9,6 @@ import in.amar.billingsoftware.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
@@ -96,17 +96,14 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getLatestOrders() {
-    return orderEntityRepository.findAllByOrderByCreatedAtDesc()
-            .stream()
-            .map(orderEntity -> convertToResponse(orderEntity))
-            .collect(Collectors.toList());
+        return orderEntityRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
-
-    @Transactional
     @Override
     public OrderResponse verifyPayment(PaymentVerificationRequest request) {
         OrderEntity  existingOrder = orderEntityRepository.findByOrderId(request.getOrderId())
@@ -138,20 +135,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long countByOrderDate(LocalDate date) {
         LocalDateTime start = date.atStartOfDay();
-        LocalDateTime end = date.atTime(23, 59, 59); 
+        LocalDateTime end = date.atTime(23, 59, 59);
         Long count = orderEntityRepository.countOrdersBetween(start, end);
         return count != null ? count : 0L;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> findRecentOrders() {
-    return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
-            .stream()
-            .map(orderEntity -> convertToResponse(orderEntity))
-            .collect(Collectors.toList());
+        return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
+                .stream()
+                .map(orderEntity -> convertToResponse(orderEntity))
+                .collect(Collectors.toList());
     }
-
 
     private boolean verifyRazorpaySignature(String razorpayOrderId, String razorpayPaymentId, String razorpaySignature) {
         return true;
