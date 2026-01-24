@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getLatestOrders() {
-    return orderEntityRepository.findAllWithItems()
+    return orderEntityRepository.findAllByOrderByCreatedAtDesc()
             .stream()
             .map(orderEntity -> convertToResponse(orderEntity))
             .collect(Collectors.toList());
