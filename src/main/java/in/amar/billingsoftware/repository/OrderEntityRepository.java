@@ -32,6 +32,10 @@ public interface OrderEntityRepository extends JpaRepository<OrderEntity, Long> 
     """)
     Long countOrdersBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Query("SELECT o FROM OrderEntity o ORDER BY o.createdAt DESC")
+    @Query("""
+    SELECT DISTINCT o FROM OrderEntity o
+    LEFT JOIN FETCH o.items
+    ORDER BY o.createdAt DESC
+    ""`)
     List<OrderEntity> findRecentOrders(PageRequest pageable);
 }
