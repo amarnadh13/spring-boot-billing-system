@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
             .collect(Collectors.toList());
     }
 
-    
+    @Transactional
     @Override
     public OrderResponse verifyPayment(PaymentVerificationRequest request) {
         OrderEntity  existingOrder = orderEntityRepository.findByOrderId(request.getOrderId())
@@ -151,13 +151,6 @@ public class OrderServiceImpl implements OrderService {
         return count != null ? count : 0L;
     }
 
-    @Override
-    public List<OrderResponse> findRecentOrders() {
-        return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
-                .stream()
-                .map(orderEntity -> convertToResponse(orderEntity))
-                .collect(Collectors.toList());
-    }
 
     private boolean verifyRazorpaySignature(String razorpayOrderId, String razorpayPaymentId, String razorpaySignature) {
         return true;
