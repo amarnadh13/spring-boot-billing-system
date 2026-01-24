@@ -9,6 +9,7 @@ import in.amar.billingsoftware.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDate;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderEntityRepository orderEntityRepository;
 
+    @Transactional
     @Override
     public OrderResponse createOrder(OrderRequest request) {
         OrderEntity newOrder = convertToOrderEntity(request);
@@ -96,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> getLatestOrders() {
         return orderEntityRepository.findAllByOrderByCreatedAtDesc()
@@ -104,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public OrderResponse verifyPayment(PaymentVerificationRequest request) {
         OrderEntity  existingOrder = orderEntityRepository.findByOrderId(request.getOrderId())
@@ -140,6 +145,7 @@ public class OrderServiceImpl implements OrderService {
         return count != null ? count : 0L;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> findRecentOrders() {
         return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
