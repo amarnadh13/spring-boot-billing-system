@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderResponse> getLatestOrders() {
     return orderEntityRepository.findAllWithItems()
             .stream()
-            .map(this::convertToResponse)
+            .map(orderEntity -> convertToResponse(orderEntity))
             .collect(Collectors.toList());
     }
 
@@ -110,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderResponse> findRecentOrders() {
     return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
             .stream()
-            .map(this::convertToResponse)
+            .map(orderEntity -> convertToResponse(orderEntity))
             .collect(Collectors.toList());
     }
 
