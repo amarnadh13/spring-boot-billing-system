@@ -36,6 +36,6 @@ public interface OrderEntityRepository extends JpaRepository<OrderEntity, Long> 
     SELECT DISTINCT o FROM OrderEntity o
     LEFT JOIN FETCH o.items
     ORDER BY o.createdAt DESC
-    ""`)
+    """)
     List<OrderEntity> findRecentOrders(PageRequest pageable);
 }
