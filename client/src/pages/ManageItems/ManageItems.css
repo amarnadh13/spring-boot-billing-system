@@ -7,6 +7,28 @@
     background: #2C3335;
 }
 
+.left-column {
+    flex: 0.7;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column {
+    flex: 0.3;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
 @media (max-width: 768px) {
     .items-container {
         flex-direction: column;
