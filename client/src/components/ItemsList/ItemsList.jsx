@@ -30,9 +30,9 @@ const ItemList = () => {
     }
 
     return (
-        <div className="category-list-container" style={{height: '100vh', overflowY: 'auto', overflowX: 'hidden'}}>
+        <div className="category-list-container">
             <div className="row pe-2">
-                <div className="div input-group mb-3">
+                <div className="input-group mb-3">
                     <input type="text" name="keyword" id="keyword" placeholder="search by keyword" className="form-control" onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm}/>
                     <span className="input-group-text bg-warning">
                         <i className="bi bi-search"></i>
