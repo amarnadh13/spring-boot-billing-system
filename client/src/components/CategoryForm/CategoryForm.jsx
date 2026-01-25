@@ -52,7 +52,7 @@ const CategoryForm = () => {
     }
 
     return (
-        <div className="mt-2 mt-2">
+        <div className="category-form-container mt-2" style={{overflowX: "hidden", overflowY: "auto"}}>
             <div className="row">
                 <div className="card col-md-12 form-container">
                     <div className="card-body">
