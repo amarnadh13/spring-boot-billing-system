@@ -61,10 +61,10 @@ const ItemForm = () => {
     }
 
     return (
-        <div className="items-form-container" style={{height:'100vh',overflowY:'auto',overflowX:'hidden'}}>
+        <div className="items-form-container">
             <div className="mt-2 mt-2">
                 <div className="row">
-                    <div className="card col-md-8 form-container">
+                    <div className="card col-md-12 form-container">
                         <div className="card-body">
                             <form onSubmit={onSubmitHandler}>
                                 <div className="mb-3">
