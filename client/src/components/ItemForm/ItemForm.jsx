@@ -61,7 +61,7 @@ const ItemForm = () => {
     }
 
     return (
-        <div className="items-form-container">
+        <div className="items-form-container" style={{overflowX: "hidden", overflowY: "auto"}}>
             <div className="mt-2 mt-2">
                 <div className="row">
                     <div className="card col-md-12 form-container">
