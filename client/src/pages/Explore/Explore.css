@@ -30,7 +30,7 @@
     flex: 0.7;
     box-sizing: border-box;
 }
-.right-column {
+.explore-right-column {
     flex: 0.3;
     border: 1px solid #CCC;
     border-radius: 8px;
@@ -75,7 +75,7 @@
         flex-direction: column;
     }
     .left-column,
-    .right-column {
+    .explore-right-column {
         flex: 1;
         overflow-y: auto;
     }
@@ -93,7 +93,7 @@
         border-radius: 8px;
         font-weight: 600;
     }
-    .right-column {
+    .explore-right-column {
         position: fixed;
         inset: 0;
         background: #2C3335;
@@ -102,7 +102,7 @@
         transition: transform 0.3s ease;
         padding: 16px;
     }
-    .right-column.show-cart {
+    .explore-right-column.show-cart {
         transform: translateX(0);
     }
     .close-cart-btn {
@@ -117,4 +117,3 @@
         overflow: hidden;
     }
 }
-
