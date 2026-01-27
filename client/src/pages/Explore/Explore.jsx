@@ -10,6 +10,7 @@ import CartSummary from "../../components/CartSummary/CartSummary.jsx";
 const Explore = () => {
     const {categories} = useContext(AppContext);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [showCart, setShowCart] = useState(false);
     const [customerName, setCustomerName] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     return (
@@ -27,9 +28,21 @@ const Explore = () => {
                         selectedCategory={selectedCategory}
                     />
                 </div>
+                <button
+                    className="mobile-order-btn"
+                    onClick={() => setShowCart(true)}
+                >
+                    Order Now →
+                </button>
             </div>
-            <div className="right-column d-flex flex-column">
-                <div className="customer-form-container" style={{height: '15%'}}>
+            <div className={`right-column ${showCart ? "show-cart" : ""}`}>
+                <button
+                    className="close-cart-btn"
+                    onClick={() => setShowCart(false)}
+                >
+                    ✕
+                </button>
+                <div className="customer-form-container">
                     <CustomerForm
                         customerName={customerName}
                         mobileNumber={mobileNumber}
