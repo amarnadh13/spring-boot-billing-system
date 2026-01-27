@@ -35,7 +35,7 @@ const Explore = () => {
                     Order Now →
                 </button>
             </div>
-            <div className={`right-column ${showCart ? "show-cart" : ""}`}>
+            <div className={`explore-right-column ${showCart ? "show-cart" : ""}`}>
                 <button
                     className="close-cart-btn"
                     onClick={() => setShowCart(false)}
